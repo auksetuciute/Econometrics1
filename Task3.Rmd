@@ -1,0 +1,53 @@
+---
+title: "Task3"
+author: "Auksė Tučiutė"
+date: '2016-10-05'
+output: html_document
+---
+
+##Why R is Hard to Learn
+
+R has a reputation of being hard to learn. Some of that is due to the fact that it is radically different from other analytics software. Some is an unavoidable byproduct of its extreme power and flexibility. And, as with any software, some is due to design decisions that, in hindsight, could have been better.
+
+If you have experience with other analytics tools, you may at first find R very alien. Training and documentation that leverages your existing knowledge and which points out where your previous knowledge is likely to mislead you can save much frustration. 
+
+
+##Unhelpful Help
+R’s help files are often thorough and usually contain many working examples. However, they’re definitely not written for beginners! My favorite example of this is the help file for one of the first commands that beginners learn: print. The SAS help file for its print procedure says that it “Prints observations in a SAS data set using some or all of the variables.” Clear enough. The R help file for its print function says, “print prints its argument and returns it invisibly (via invisible(x)). It is a generic function which means that new printing methods can be easily added for new classes.” The reader is left to wonder what “invisible” output looks like and what methods and classes are. The help files will tell you more about “methods” but not “classes”. You have to know to look for help on “class” to find that.
+
+Another confusing aspect to R’s help files stems from R’s ability to add new capabilities (called methods) to some functions as you load add-on packages. This means you can’t simply read a help file, understand it, and you’re done learning that function forever. However, it does mean that you have fewer commands to learn. For example, once you learn to use the predict function, when you load a new package, that function may gain new abilities to deal with model objects that are computed specifically within the new package.
+
+So an R beginner has to learn much more than a SAS or SPSS beginner before he or she will find the help files very useful. However, there is a vast array of tutorials, workshops and books available, many of them free, to get beginners over this hump.
+
+
+##Too Many Commands
+Other statistics packages have relatively few analysis commands but each of them have many options to control their output. R’s approach is quite the opposite which takes some getting used to. For example, when doing a linear regression in SAS or SPSS you usually specify everything in advance and then see all the output at once: equation coefficients, analysis of variance (ANOVA) table, and so on. However, when you create a model in R, one command (summary) will provide the parameter estimates while another (anova) provides the ANOVA table. There are other commands such as “coefficients” that display only that part of the model. So there are more commands to learn, but fewer options are needed for each.
+
+##Inconsistent Syntax
+Since everyone is free to add new capabilities to R, the resulting code for different R packages is often a bit of a mess. For example, the two blocks of code below do roughly the same thing but using radically different syntaxes. This type of inconsistency is common in R, but there’s no way to get around it given everyone can add to it as they like.
+
+```{r s}
+library("Deducer")
+descriptive.table(
+  vars = d(mpg,hp),
+  data = mtcars,
+  func.names =c("Mean", "Median",
+  "St. Deviation", "Valid N",
+  "25th Percentile", "75th Percentile"))
+library("RcmdrMisc")
+numSummary(
+  data.frame(mtcars$mpg, mtcars$hp),
+  statistics = c("mean", "sd", "quantiles"),
+  quantiles = c(.25, .50, .75))
+```
+
+##Conclusion
+There are many aspects of R that make it hard for beginners to learn. Some of these are due to R’s unique nature, some are due to its power, flexibility and extensibility. Others are due to aspects of its design that don’t really offer benefits. However, R’s power, free price, and open source nature attract developers, and the wide array of add-on tools have resulted in software that is growing rapidly in popularity.
+
+R has been my main analytics tool of choice for close to a decade now, and I have found its many benefits to be well worth its peccadilloes. If you currently program in SAS, SPSS or Stata and find its use comfortable, then I recommend giving R a try to see how you like it. I hope this article will help prepare you for some of the pitfalls that you’re likely to run into by explaining how some of them offer long-term advantages, and by offering a selection of add-on packages to help ease your transition. However, if you use one of those languages and view it as challenging, then learning R may not be for you. Don’t fret, you can enjoy the simplicity of other software, while calling R functions from that software as I describe here.
+
+If you’re already an R user and I’ve missed any of your pet peeves, please list them in the comments section below.
+
+
+##References
+More information about niceties of R : http://r4stats.com/articles/why-r-is-hard-to-learn/

@@ -1,0 +1,67 @@
+---
+title: "TASK 11"
+author: "Aukse Tuciute"
+date: '2016-11-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uzduotis
+
+Pakete datasets yra duomenu masyvas longley. Is sio kintamuju padaryti tiesine regresija, kur prognozuojamas kintamasis butu GNP, o regresosius Employed. Reikia:
+
+Ivertinti paprastosios tiesinės regresijos modeli. Pateikti modelio summary ir pakomentuoti ka reiskia gauti skaiciai. Kaip interpretuoti gautus rezultatus?
+
+Padaryti modelio prognozes taskuose $62, 65, 68$.
+
+Isbrezti kintamuju sklaidos diagrama kartu su tiesines regresijos tiese ir naujomis prognozemis. Grafika pateikti su pilna legenda, kurioje butu nurodyti visi zymejimai.
+
+```{r}
+x=longley$Employed
+y=longley$GNP
+plot(x,y)
+mod=lm(y~x)
+summary(mod)
+```
+
+
+##Summary paaiskinimai
+
+Residuals parodo, kaip pasiskirsciusios paklaidos, kiek prognozuojami duomenys gali skirtis nuo stebimu duomenu.
+
+Coeficient - parametrai, kuriuos vertinome/
+
+Estimate - ivertinimas is tiesines regresijos lygties y = β0 + β1x + ϵ .
+
+Std. Error - iverciu standartinis nuokrypis.
+
+t value - Stjudento testo t reiksme.
+
+Pr(>|t|) parodo su kokiu reiksmingumo lygmeniu sie iverciai yra reiksmingi.
+
+Residual standard error rodo stebimu duomenu nuokrypi nuo ivertinto ju modelio.
+
+Multiple R-squared yra modelio tinkamumo matas. Kuo jis didesnis, tuo geresnis modelis.
+
+F-Statistic - Fiserio statistika(cia 415,1 su laisves laipsniais 1 ir 14).
+
+
+## Modelio prognozes taskuose
+
+```{r}
+newx=c(62,65,68)
+newy= predict(mod, newdata=data.frame(x=newx))
+newy
+```
+
+## Kintamuju sklaidos diagrama
+
+```{r}
+plot(x,y)
+abline(mod, col=2)
+points(newx,newy, col=3, pch=19)
+legend(62,620, c("Kintamuju sklaidos diagrama", "tiesines regresijos tiese", "naujos prognozes", pch=c(1,NA,19), lty=c(0,1,0), col=c(1,2,3)))
+```

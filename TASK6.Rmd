@@ -1,0 +1,103 @@
+---
+title: "TASK 6"
+author: "Aukse Tuciute"
+date: '2016-11-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("knitr")
+```
+
+## SWIRL REZULTATAI
+
+##Duomenu nuskaitymas ir sutvarkymas
+
+```{r}
+df = read.csv('R_programing_swirlResults.csv', stringsAsFactors=FALSE)
+sapply(df, class)
+```
+Nuskaitome duomenis is pateikto failo ir patikriname kiekvieno stulpelio duomenu tipa.
+Pertvarkome datu tipa : 
+```{r}
+df <- transform(df, sysTime = as.POSIXlt(sysTime), datetime = as.POSIXlt(datetime))
+```
+
+Toliau reikia istrinti testavimo duomenis, t.y. eilutes, kurias pateike "aaa", "testas" ir "1vbutkus" :
+```{r}
+unique(df$user)
+ind <- with(df, which(user=="aaa" | user=="testas" | user=="1vbutkus"))
+df <- df[-ind,]
+unique(df$user)
+```
+
+Sarase kartojasi kaikuriu vartotoju vardai, todel juos "sulyginame" :
+```{r}
+df$user[df$user=="gyse"] <- "gyse3054"
+df$user[df$user=="rokasalek"] <- "rokasaleks"
+df$user[df$user=="Juste" | df$user=="ju" | df$user=="j"] <- "juste"
+unique(df$user)
+```
+
+Patikriname ar nera dubliavimosi ir istriname is pradinio duomenu masyvo besikartojancius duomenis :
+```{r}
+df2 <- df[,c(7, 9, 10, 12, 14)]
+dup <- which(duplicated(df2), TRUE)
+df <- df[-dup,]
+```
+
+
+
+Toliau, ieskome vartotoju, kurie atliko visas uzduotis, t.y. tie, kurie nepraleido nei vieno klausimo. Pasalinsime is duomenu masyvo tuos, kurie praleido bent viena klausima.
+```{r}
+ind <- with(df, which(skipped =="TRUE"))
+df_skipped <- df[ind,]
+users <- unique(df_skipped$user)
+users
+```
+
+Is siu duomenu kuriame nauja masyva, kuriame nera vartotoju praleidusiu nei vieno klausimo:
+```{r}
+ind <- with(df, which(is.element(df$user, users) =="TRUE"))
+df_noskiped <- df[-ind,]
+unique(df_noskiped$user)
+```
+
+
+## Kiek vidutiniskai uztrunka atlikti visas uzduotis?
+
+Sutvarkome duomenis taip, kad liktu tik kiekvieno vartotojo atliktos pamokos ir ju atlikimo laikai : 
+```{r}
+df_time <- df[,c(3, 6, 7, 9, 13)]
+df2 <- df[,c(7,9)]
+dup <- which(duplicated(df2), TRUE)
+df_time <- df_time[-dup,]
+kable(head(df_time))
+```
+
+Randame laika, kuri is tikruju uztrunka vartotojas :
+```{r}
+TikrasisLaikas <- round(difftime(df_time$sysTime, df_time$datetime, units="mins"))
+df_time <- cbind(df_time, TikrasisLaikas)
+kable(head(df_time))
+```
+
+
+##Ar galime pasitiketi zmoniu deklaruotu laiku?
+
+Apskaiciuojame vidutini skirtuma tarp zmoniu deklaruoto ir sistemos fiksuoto laiko:
+```{r}
+timedif <- abs(df_time$takeTime - df_time$real_taketime)
+mean(timedif)
+```
+
+##Kurios uzduotys sunkiausios?
+
+I si klausima pabandysime atsakyti naudojantis klaidingu bandymu skaiciumi :
+```{r}
+ind <- with(df, which(correct =="FALSE"))
+df2 <- df[ind,] #neteisingi atsakymai
+head(sort(table(df2$lesson_name), decreasing=TRUE))
+```
+

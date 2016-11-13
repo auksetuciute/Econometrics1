@@ -1,0 +1,25 @@
+---
+title: "Kauliukai"
+author: "Aukse Tuciute"
+date: '2016-09-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Uzduotis
+Du zaidejai zaidzia toki zaidima. Pirmasis zaidejas meta tris kauliukus ir fikuoja iskritusiu tasku suma. Antrasis zaidejas ridena du kauliukus ir skiaciuoja iskrituiu tasku suma. Laimi tas zaidejas, kurio tasku suma yra didesne. Jeigu tasku sumos yra lygios, tai, tai ekspermentas kartojamas is naujo (ir taip kartojama tol, kol galiausiai nustatomas laimetojas). Kokia tikimybe laimeti pirmajam zaidejui?
+
+Sugeneruoju dvi imtis :
+```{r}
+n=10^4
+zaidejas1 <- replicate(n, sum(sample(1:6, 3, replace=TRUE)))
+zaidejas2 <- replicate(n, sum(sample(1:6, 2, replace=TRUE)))
+```
+
+Randu tikimybe laimeti pirmajam :
+```{r}
+sum(zaidejas1 > zaidejas2)/n
+```

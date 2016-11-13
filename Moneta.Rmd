@@ -1,0 +1,34 @@
+---
+title: "Moneta"
+author: "Aukse Tuciute"
+date: '2016-09-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Uzduotis
+Tarkime metama moneta. Jeigu iškrenta herbas, tai laimite $12$ EUR. Jeigu skaičius, tai pralošiate $10$ EUR. Bus žaidžiama $100$ kartų ir gauti rezultatai sumuojami. Kokia tikimybė jums turėti teigiamą balansą po $100$ kartų? Koks balanso pasikliautinis $95%$ intervalas? Kaip atrodo balanso tankis?
+
+
+
+Pirmiausia sugeneruojame imti ir randame tikimybe tureti teigiama balansa:
+```{r}
+n=10^4
+balansas <- replicate(n, sum(sample(c(12, -10), 100, replace = TRUE)))
+prob <-sum((balansas<0)==FALSE)/n
+prob
+```
+
+Pasikliautinis 95% intervalas (apatinis intervalo rezis ir virsutinis intervalo rezis) :
+```{r}
+x=quantile(balansas, probs=c(0.025, 0.975))
+x
+```
+
+Kaip atrodys balanso tankis?
+```{r}
+plot(density(balansas), col=2)
+```

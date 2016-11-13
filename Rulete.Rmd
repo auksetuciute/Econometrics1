@@ -1,0 +1,28 @@
+---
+title: "Rulete"
+author: "Aukse Tuciute"
+date: '2016-09-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Uzduotis
+Nagrinekime standartine kazino rulete. Kokia tikimybe, kad po $1000$ vienodu statymu ant vienos pasirinktos spalvos, bus teigiamas balansas? Raskite apytiksle $x$ reiksme, kuriai galioja nelygybe $P(balansas<x) = 0.25$.
+
+```{r}
+n=10^4
+balansas <- replicate(n, sum(sample(c(-1,1), 1000, replace=TRUE, prob=c(19/37, 18/37))))
+prob=sum((balansas>0)==TRUE)/n
+prob
+```
+
+Sudareme balanso imti, kai ekspermentas kartojamas 10000 kartu ir suskaiciavome tikimybe, kad turesime teigiama balansa.
+
+```{r}
+x=quantile(balansas, probs=0.25)
+x
+```
+Radome 25% kvantili.

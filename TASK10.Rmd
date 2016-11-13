@@ -1,0 +1,48 @@
+---
+title: "TASK 10"
+author: "Aukse Tuciute"
+date: 2016-10-09
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('prob')
+```
+
+##TASK 10
+
+Uzduotis skirta ismokti tikrinti paprasta statistine hipoteze ir suprasti jos rezultatus.
+
+a) Tegul $x_1, ..., X_{100} \sim N(1, 2)$. Susigeneruokite tokia imti ir patikrinkite nuline hipoteze, kad H_0: $\mu=1$, su alternatyva, kad $\mu\neq 1$. Tam rekalinga funkcija t.test. Detaliai paaiskinkite ka reiskia funkcijos isvestyje pateikti skaiciai.
+
+Sugeneruosiu imti X. Tuomet naudosiu Stjudento testa, kuris tikrina vidurkio lygybe, t.y. mu=1, su altenaryna mu!=1.Hipoteze tikrinsiu su reiksmingumo lygmeniu 0.05. 
+Nuline hipoteze H_0 yra atmetama, kai p-value < 0.05.
+Pagal si atveji, nuline hipoteze H_0 neatmetama, nes p-value=0.1218 > 0.05.
+
+```{r s}
+set.seed(1234)
+X <- rnorm(100, mean = 1, sd=2)
+t.test(X, alternative = "two.sided", mu = 1)
+```
+
+
+
+b) Kartokite a) dalies generavima daug kartu (pvz.10^4) ir suskaiciuokite kiek atveju buvo atmesta nuline hipoteze Isreiskite si skaiciu procentais. Kokia isvada galite padaryti?
+
+Imtia X generuojama n kartu. Reikalinga yra toji p-value reiksme, kuri yra trecioje eiluteje. 
+testas = eilute sudaryta is n p-value reiksmiu. A = suskaiciuojame kiek p-value yra <0.05. Taip suzinosiu, kiek kartu buvo atmesta nuline hipoteze.
+
+```{r s}
+n=10^4
+testas = replicate(n, t.test(rnorm(100, 1, 2), alternative = "two.sided", mu = 1))[3,]
+A=sum(testas<0.05)
+A
+library(scales)
+percent(A/n)
+```
+
+
+
+Atliekant darba buvo pasinaudota Agnes Zavackaites ikeltu darbu. 

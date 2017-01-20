@@ -1,0 +1,54 @@
+---
+title: "Egzaminas"
+author: "Aukse Tuciute"
+date: '2017-01-20'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uzduotis 3
+
+```{r,s}
+df = read.csv('data.csv', stringsAsFactors=FALSE) #nuskaitome duomenis
+```
+
+
+
+Patikrinimas ar masyve nera kokiu nors klaidu:
+```{r,s}
+sapply(df, anyNA)
+ind<-apply(df,1, anyNA)
+sum(ind)
+df<-df[!ind,]
+dim(df)
+```
+```{r,s}
+head(df) 
+ind<-apply(df, 1, anyNA)
+df<-df[!ind,]
+```
+
+Duomenu masyvo suskaidymas:
+```{r,s}
+n <- length(df)
+ind <- sample(c(TRUE, FALSE), n, replace=TRUE, prob=c(0.8, 0.2))
+trainSet <- df[ind, ]
+testSet <- df[!ind, ]
+```
+
+
+
+
+
+
+
+##Patikrinkite ar modelio paklaidas galime laikyti normaliomis.
+Siai uzduociai naudojama:
+```{r,s}
+shapiro.test(fit$res)
+```
+Pagal shapiro.test jei p-value>0.05 priimame H0: liekanu paklaidos yra normalios.
+

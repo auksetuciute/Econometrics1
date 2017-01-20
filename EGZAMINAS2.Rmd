@@ -1,0 +1,76 @@
+---
+title: "Egzaminas"
+author: "Aukse Tuciute"
+date: '2017-01-20'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uzduotis 2
+```{r,s}
+n <- 10000
+x1 <- rnorm(n, mean=3, sd=2)
+x2 <- rnorm(n, mean=-1, sd=3)
+```
+
+```{r,s}
+x <- x1+x2
+qqnorm(x)
+```
+
+
+
+
+Palyginamas sugeneruotas $X$ empirinis skirstinys su teoriniu skirstiniu:
+```{r,s}
+n <- 10000
+x1 <- rnorm(n, mean=3, sd=2)
+x2 <- rnorm(n, mean=-1, sd=3)
+x <- x1+x2
+cbind(as.data.frame(table(x)/n))
+```
+
+Teorinis vidurkis:
+```{r,s}
+ES <- sum(S_teor$probs * S_teor$sum)
+ES
+```
+
+Teorine dispersija:
+```{r,s}
+varS <- sum(S_teor$probs * (S_teor$sum-ES)^2)
+varS
+```
+
+```{r}
+plot(cumsum(x)/1:n, type="l", xlab="n", ylab = "x / n", main="Vidurkio artejimas i teorini")
+abline(h=ES, col=2)
+
+a=x*0
+for(i in 1:10000){
+  a[i]=var(x[1:i])
+}
+
+plot(a[1:10000], type="l", xlab="n", ylab="varS", main="Dispersijos artejimas i teorine")
+abline(h=varS, col=2)
+```
+
+
+
+
+
+
+Randama tikimybe, kad |X| > 2 :
+```{r,s}
+sum( abs(x) > 2 )/n
+```
+
+
+```{r s}
+n <- 10000
+x <- replicate(n, sum(abs(x) > 2)/n)
+head(x)
+```

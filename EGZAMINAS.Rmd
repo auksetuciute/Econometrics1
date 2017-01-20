@@ -1,0 +1,34 @@
+---
+title: "Egzaminas"
+author: "Aukse Tuciute"
+date: '2017-01-20'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Uzduotis 1
+
+```{r, s}
+set.seed(1234567890)
+x <- rnorm(5000)
+```
+
+```{r,s}
+t.test(x)
+```
+
+```{r, s}
+outlier_values <- boxplot.stats(x)$out
+boxplot(x)
+mtext(paste("Outliers: ", paste(outlier_values, collapse = " ")), cex=0.5 )
+```
+
+```{r,s}
+x[!x %in% boxplot.stats(x)$out]
+hist(x)
+```
+
+
